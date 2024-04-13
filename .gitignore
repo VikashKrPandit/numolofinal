@@ -19,7 +19,6 @@
 # ------------------------
 #         DEPENDENCIES
 # ------------------------
-src/public/uploads/
 node_modules/
 .yarn/cache/
 .yarn/unplugged/
