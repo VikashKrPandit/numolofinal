@@ -121,10 +121,10 @@ socket.on("data-server", function (msg) {
         );
 
         // Set the value of firstGame to the first game in the gameslist
-        firstGame = data[];
+        firstGame = data[0];
 
         var lastGame = data[data.length - 1];
-        console.log(firstGame);
+        //console.log(firstGame);
         showListOrder2(data, 1);
 
         // Nested AJAX call
