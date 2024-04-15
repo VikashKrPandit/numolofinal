@@ -146,7 +146,7 @@ socket.on("data-server", function (msg) {
 
             // Assuming firstGame is defined somewhere in your code
             //console.log("first game: ", firstGame)
-            if (firstGame && firstGame.stage === list_orders[0].period) {
+            if (firstGame && firstGame.get === list_orders[0].period) {
               var modal = document.getElementById("myModal");
               modal.style.display = "block";
               var myModalheader = document.getElementById("myModal_header");
@@ -160,7 +160,7 @@ socket.on("data-server", function (msg) {
                 myModalheader.innerHTML = "Winning 🥇";
                 myModal_result.innerHTML = "WIN :" + firstGame.get;
               }
-              myModal_result_Period.innerHTML = "Period : 30 sec " + firstGame.stage;
+              myModal_result_Period.innerHTML = "Period : 30 sec " + firstGame.get;
 
 
               let color;
