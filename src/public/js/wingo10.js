@@ -121,7 +121,7 @@ socket.on("data-server", function (msg) {
         );
 
         // Set the value of firstGame to the first game in the gameslist
-        firstGame = data[0];
+        firstGame = data[];
 
         var lastGame = data[data.length - 1];
         console.log(firstGame);
@@ -145,7 +145,7 @@ socket.on("data-server", function (msg) {
             $(".game-list .con-box:eq(0) .page-nav .number").text("1/" + response.page);
 
             // Assuming firstGame is defined somewhere in your code
-            console.log("first game: ", firstGame)
+            //console.log("first game: ", firstGame)
             if (firstGame && firstGame.stage === list_orders[0].period) {
               var modal = document.getElementById("myModal");
               modal.style.display = "block";
