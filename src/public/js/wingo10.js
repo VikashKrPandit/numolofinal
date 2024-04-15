@@ -1012,7 +1012,7 @@ function showListOrder2(list_orders, x) {
               : list_orders.status == 1 && list_orders.result == 0 && list_orders.bet == 'd'
                 ? list_orders.money * 1.9
                 : list_orders.status == 1 && list_orders.bet == 'd'
-                  ? list_orders.money * 2
+                  ? list_orders.money * 1.9
                   : list_orders.status == 1 && list_orders.bet == 'x'
                     ? list_orders.money * 1.9
                     : list_orders.status == 1 && list_orders.result == 5 && list_orders.bet == 'x'
