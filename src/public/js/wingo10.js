@@ -868,7 +868,7 @@ function showListOrder2(list_orders, x) {
                                   <div data-v-a9660e98="" class="money">
                                   ${list_orders.status == 1 && list_orders.bet == 0
         ? '<span data-v-a9660e98="" class="success"> + ' +
-        list_orders.money * 4.5 +
+        list_orders.money * 4.8 +
         " </span>"
         : list_orders.status == 1 && list_orders.bet == 5
           ? '<span data-v-a9660e98="" class="success"> + ' +
@@ -876,31 +876,31 @@ function showListOrder2(list_orders, x) {
           " </span>"
           : list_orders.status == 1 && list_orders.result == 0 && list_orders.bet == 'd'
             ? '<span data-v-a9660e98="" class="success"> + ' +
-            list_orders.money * 1.5 +
+            list_orders.money * 1.9 +
             " </span>"
             : list_orders.status == 1 && list_orders.bet == 'd'
               ? '<span data-v-a9660e98="" class="success"> + ' +
-              list_orders.money * 2 +
+              list_orders.money * 1.9 +
               " </span>"
               : list_orders.status == 1 && list_orders.bet == 't'
                 ? '<span data-v-a9660e98="" class="success"> + ' +
-                list_orders.money * 4.5 +
+                list_orders.money * 4.8 +
                 " </span>"
                 : list_orders.status == 1 && list_orders.result == 5 && list_orders.bet == 'x'
                   ? '<span data-v-a9660e98="" class="success"> + ' +
-                  list_orders.money * 1.5 +
+                  list_orders.money * 1.9 +
                   " </span>"
                   : list_orders.status == 1 && list_orders.bet == 'x'
                     ? '<span data-v-a9660e98="" class="success"> + ' +
-                    list_orders.money * 2 +
+                    list_orders.money * 1.9 +
                     " </span>"
                     : list_orders.status == 1 && list_orders.bet == 'l'
                       ? '<span data-v-a9660e98="" class="success"> + ' +
-                      list_orders.money * 2 +
+                      list_orders.money * 1.9 +
                       " </span>"
                       : list_orders.status == 1 && list_orders.bet == 'n'
                         ? '<span data-v-a9660e98="" class="success"> + ' +
-                        list_orders.money * 2 +
+                        list_orders.money * 1.9 +
                         " </span>"
                         : list_orders.status == 1
                           ? '<span data-v-a9660e98="" class="success"> + ' +
@@ -1004,23 +1004,23 @@ function showListOrder2(list_orders, x) {
       } ${list_orders.status == 0
         ? ""
         : list_orders.status == 1 && list_orders.bet == 0
-          ? list_orders.money * 4.5
+          ? list_orders.money * 4.8
           : list_orders.status == 1 && list_orders.bet == 5
-            ? list_orders.money * 1.5
+            ? list_orders.money * 1.9
             : list_orders.status == 1 && list_orders.bet == 't'
-              ? list_orders.money * 4.5
+              ? list_orders.money * 4.8
               : list_orders.status == 1 && list_orders.result == 0 && list_orders.bet == 'd'
-                ? list_orders.money * 1.5
+                ? list_orders.money * 1.9
                 : list_orders.status == 1 && list_orders.bet == 'd'
                   ? list_orders.money * 2
                   : list_orders.status == 1 && list_orders.bet == 'x'
-                    ? list_orders.money * 1.5
+                    ? list_orders.money * 1.9
                     : list_orders.status == 1 && list_orders.result == 5 && list_orders.bet == 'x'
-                      ? list_orders.money * 1.5
+                      ? list_orders.money * 1.9
                       : list_orders.status == 1 && list_orders.bet == 'l'
-                        ? list_orders.money * 2
+                        ? list_orders.money * 1.9
                         : list_orders.status == 1 && list_orders.bet == 'n'
-                          ? list_orders.money * 2
+                          ? list_orders.money * 1.9
                           : list_orders.status == 1
                             ? list_orders.money * 9
                             : list_orders.money
