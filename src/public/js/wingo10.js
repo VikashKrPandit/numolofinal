@@ -172,7 +172,7 @@ socket.on("data-server", function (msg) {
                 type = "Big";
               }
 
-              if (firstGame.result == 0) {
+              if (firstGame.result >= 0) {
                 color = "Red + Yellow";
               } else if (firstGame.result == 5) {
                 color = "Green + Yellow";
