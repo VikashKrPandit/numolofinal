@@ -694,6 +694,49 @@ const wowpay = async (req, res) => {
 
     // Your existing controller code here
 };
+//manula deposit amount 
+const manualRechargeDeposit= async(req,res)=>{
+    console.log("Recharge manuaRechargeDeposit ", req.body.money);
+    let auth = req.cookies.auth;
+    let utr = req.cookies.utr;
+    let money = req.body.money;
+    let typeid='manual';
+    let date = new Date();
+    let time = date.getTime();
+    let today = date.getFullYear() + '' + date.getMonth() + 1 + '' + date.getDate();
+    let id_order = Math.floor(Math.random() * (99999999999999 - 10000000000000 + 1)) + 10000000000000;
+    let transaction_id = time+""+id_order;
+    
+    const [user] = await connection.query('SELECT `phone`, `email`, `code`,`name_user`,`invite` FROM users WHERE `token` = ? ', [auth]);
+    let userInfo = user[0];
+    console.log("userInfo",userInfo);
+    console.log('🚀 ~ manuaRechargeDeposit_userInfo:', userInfo.email);
+    if (!user) {
+        return res.status(200).json({
+            message: 'Failed',
+            status: false,
+            
+        });
+    };
+    const sql = `INSERT INTO recharge SET 
+    id_order = ?,
+    transaction_id = ?,
+    utr = ?,
+    phone = ?,
+    email =?,
+    money = ?,
+    type = ?,
+    status = ?,
+    today = ?,
+    time = ?`;
+    await connection.query(sql, [id_order,transaction_id,req.body.utr, userInfo.phone,userInfo.email,req.body.money,'manual',0,today,time]);
+    return res.status(200).json({
+        message: 'Deposit successfully',
+        status: true,
+        timeStamp: timeNow,
+    });
+
+}
 const recharge = async (req, res) => {
     console.log("Recharge Start ", req.body)
     let auth = req.cookies.auth;
@@ -1704,4 +1747,5 @@ module.exports = {
     search,
     updateRecharge,
     confirmRecharge,
+    manualRechargeDeposit,
 }

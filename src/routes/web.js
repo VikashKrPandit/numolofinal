@@ -22,7 +22,7 @@ const initWebRouter = (app) => {
   router.post('/api/resetPassword', accountController.forgotPassword)
   router.post('/api/sent/otp/verify', accountController.verifyCode);
   router.post('/api/sent/otp/verify/reset', accountController.verifyCodePass);
-  router.post('/api/resetPasword', accountController.forGotPassword);
+  //router.post('/api/resetPasword', accountController.forGotPassword);
 
   // file uplaod
   router.post('/api/upload', (req, res, next) => {
@@ -94,6 +94,7 @@ const initWebRouter = (app) => {
 
   router.get('/wallet', middlewareController, homeController.walletPage);
   router.get('/wallet/recharge', middlewareController, homeController.rechargePage);
+  router.get('/wallet/manualdeposit', middlewareController, homeController.manualdeposit);
   router.get('/wallet/withdrawal', middlewareController, homeController.withdrawalPage);
   router.get('/wallet/rechargerecord', middlewareController, homeController.rechargerecordPage);
   router.get('/wallet/withdrawalrecord', middlewareController, homeController.withdrawalrecordPage);
@@ -158,6 +159,7 @@ const initWebRouter = (app) => {
 
   // wallet
   router.post('/api/webapi/recharge', middlewareController, userController.recharge);
+  router.post('/api/webapi/manualRechargeDeposit', middlewareController, userController.manualRechargeDeposit);
 
   router.post('/wowpay/create', middlewareController, userController.wowpay);
   router.post('/api/webapi/confirm_recharge', middlewareController, userController.confirmRecharge);

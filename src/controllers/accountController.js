@@ -282,6 +282,7 @@ const register = async(req, res) => {
 
 const forgotPassword = async (req, res) => {
     const { email } = req.body;
+    console.log("email forgpassword",email);
 
     if (!email) {
         return res.status(400).json({ message: 'Email address is required' });
@@ -290,7 +291,7 @@ const forgotPassword = async (req, res) => {
     try {
         // Check if the email exists in the database
         const [rows] = await connection.query('SELECT * FROM users WHERE email = ?', [email]);
-
+        console.log("forgpasswordRows",rows);
         if (rows.length === 1) {
             // Retrieve the user's password
             const password = rows[0].plain_password; // Assuming password is stored in plain text (not recommended)
@@ -304,7 +305,7 @@ const forgotPassword = async (req, res) => {
         }
     } catch (error) {
         console.error('Error retrieving password:', error);
-        return res.status(500).json({ status: false, message: 'Internal server error' });
+        return res.status(200).json({ status: false, message: 'Email address not found' });
     }
 };
 
@@ -408,7 +409,7 @@ const verifyCodePass = async (req, res) => {
 
 }
 
-const forGotPassword = async (req, res) => {
+/* const forGotPassword = async (req, res) => {
     let username = req.body.username;
     let otp = req.body.otp;
     let pwd = req.body.pwd;
@@ -458,7 +459,7 @@ const forGotPassword = async (req, res) => {
     }
 
 }
-
+ */
 const keFuMenu = async (req, res) => {
     let auth = req.cookies.auth;
 
@@ -526,6 +527,6 @@ module.exports = {
     forgotPage,
     verifyCode,
     verifyCodePass,
-    forGotPassword,
+    //forGotPassword,
     keFuMenu
 }

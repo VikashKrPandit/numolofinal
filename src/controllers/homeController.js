@@ -56,6 +56,9 @@ const rechargePage = async(req, res) => {
 const rechargerecordPage = async(req, res) => {
     return res.render("wallet/rechargerecord.ejs"); 
 }
+const manualdeposit = async(req, res) => {
+    return res.render("wallet/manualdeposit.ejs"); 
+}
 
 const withdrawalPage = async(req, res) => {
     return res.render("wallet/withdrawal.ejs"); 
@@ -153,6 +156,7 @@ module.exports = {
     bonusRecordPage,
     rechargePage,
     rechargerecordPage,
+    manualdeposit,
     withdrawalPage,
     withdrawalrecordPage,
     aboutPage,
