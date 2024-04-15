@@ -124,7 +124,7 @@ socket.on("data-server", function (msg) {
         firstGame = data[0];
 
         var lastGame = data[data.length - 1];
-        //console.log(firstGame);
+        console.log(firstGame);
         showListOrder2(data, 1);
 
         // Nested AJAX call
@@ -145,8 +145,8 @@ socket.on("data-server", function (msg) {
             $(".game-list .con-box:eq(0) .page-nav .number").text("1/" + response.page);
 
             // Assuming firstGame is defined somewhere in your code
-            //console.log("first game: ", firstGame)
-            if (firstGame && firstGame.get === list_orders[0].period) {
+            console.log("first game: ", firstGame)
+            if (firstGame && firstGame.stage === list_orders[0].period) {
               var modal = document.getElementById("myModal");
               modal.style.display = "block";
               var myModalheader = document.getElementById("myModal_header");
@@ -160,7 +160,7 @@ socket.on("data-server", function (msg) {
                 myModalheader.innerHTML = "Winning 🥇";
                 myModal_result.innerHTML = "WIN :" + firstGame.get;
               }
-              myModal_result_Period.innerHTML = "Period : 30 sec " + firstGame.get;
+              myModal_result_Period.innerHTML = "Period : 30 sec " + firstGame.stage;
 
 
               let color;
@@ -172,7 +172,7 @@ socket.on("data-server", function (msg) {
                 type = "Big";
               }
 
-              if (firstGame.result >= 0) {
+              if (firstGame.result == 0) {
                 color = "Red + Yellow";
               } else if (firstGame.result == 5) {
                 color = "Green + Yellow";
