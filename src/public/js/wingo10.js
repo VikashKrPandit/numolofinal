@@ -2,54 +2,54 @@ function showListOrder3(list_orders, x) {
   if (list_orders.length == 0) {
     return $(`.game-list .con-box:eq(${x}) .hb`).html(
       `
-                    <div data-v-a9660e98="" class="van-empty">
-                        <div class="van-empty__image">
-                            <img src="/images/empty-image-default.png" />
-                        </div>
-                        <p class="van-empty__description">No data2</p>
-                    </div>
-                    `
+                      <div data-v-a9660e98="" class="van-empty">
+                          <div class="van-empty__image">
+                              <img src="/images/empty-image-default.png" />
+                          </div>
+                          <p class="van-empty__description">No Data40</p>
+                      </div>
+                      `
     );
   }
   let htmls = "";
   let result = list_orders.map((list_orders) => {
     return (htmls += `
-                    <div data-v-a9660e98="" class="c-tc item van-row">
-                        <div data-v-a9660e98="" class="van-col van-col--8">
-                            <div data-v-a9660e98="" class="c-tc goItem">${list_orders.period
+                      <div data-v-a9660e98="" class="c-tc item van-row">
+                          <div data-v-a9660e98="" class="van-col van-col--8">
+                              <div data-v-a9660e98="" class="c-tc goItem">${list_orders.period
       }</div>
-                        </div>
-                        <div data-v-a9660e98="" class="van-col van-col--5">
-                            <div data-v-a9660e98="" class="c-tc goItem">
-                                <!---->
-                                <span data-v-a9660e98="" class="${list_orders.amount % 2 == 0 ? "red" : "green"
+                          </div>
+                          <div data-v-a9660e98="" class="van-col van-col--5">
+                              <div data-v-a9660e98="" class="c-tc goItem">
+                                  <!---->
+                                  <span data-v-a9660e98="" class="${list_orders.amount % 2 == 0 ? "red" : "green"
       }"> ${list_orders.amount} </span>
-                            </div>
-                        </div>
-                        <div data-v-a9660e98="" class="van-col van-col--5">
-                            <div data-v-a9660e98="" class="c-tc goItem">
-                                <span data-v-a9660e98=""> ${list_orders.amount < 5 ? "Small" : "Big"
+                              </div>
+                          </div>
+                          <div data-v-a9660e98="" class="van-col van-col--5">
+                              <div data-v-a9660e98="" class="c-tc goItem">
+                                  <span data-v-a9660e98=""> ${list_orders.amount < 5 ? "Small" : "Big"
       } </span>
-                                <!---->
-                            </div>
-                        </div>
-                        <div data-v-a9660e98="" class="van-col van-col--6">
-                            <div data-v-a9660e98="" class="goItem c-row c-tc c-row-center">
-                                <div data-v-a9660e98="" class="c-tc c-row box c-row-center">
-                                    <span data-v-a9660e98="" class="li ${list_orders.amount % 2 == 0
+                                  <!---->
+                              </div>
+                          </div>
+                          <div data-v-a9660e98="" class="van-col van-col--6">
+                              <div data-v-a9660e98="" class="goItem c-row c-tc c-row-center">
+                                  <div data-v-a9660e98="" class="c-tc c-row box c-row-center">
+                                      <span data-v-a9660e98="" class="li ${list_orders.amount % 2 == 0
         ? "red"
         : "green"
       }"></span>
-                                    ${list_orders.amount == 0 ||
+                                      ${list_orders.amount == 0 ||
         list_orders.amount == 5
         ? '<span data-v-a9660e98="" class="li violet"></span>'
         : ""
       }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    `);
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      `);
   });
   $(`.game-list .con-box:eq(${x}) .hb`).prepend(htmls);
   $(`.game-list .con-box:eq(${x}) .hb .c-tc`).last().remove();
@@ -59,6 +59,7 @@ var pageno = 0;
 var limit = 10;
 var page = 1;
 socket.on("data-server", function (msg) {
+  console.log("sdsadasdsa ", msg.data[0].game)
   if (msg.data[0].game != 'wingo10') return;
   $(".Loading").fadeIn(0);
   setTimeout(() => {
@@ -99,6 +100,7 @@ socket.on("data-server", function (msg) {
       "color",
       "#fff"
     );
+
     var firstGame;
 
     $.ajax({
@@ -112,7 +114,7 @@ socket.on("data-server", function (msg) {
       },
       dataType: "json",
       success: function (response) {
-        console.log("mylist",response);
+        console.log("emerdList1",response);
         let data = response.data.gameslist;
         $(".game-list .con-box:eq(1) .page-nav .number").text(
           "1/" + (response.page ? response.page : '1')
@@ -137,12 +139,13 @@ socket.on("data-server", function (msg) {
           },
           dataType: "json",
           success: function (response) {
-            console.log("GetNoaverageEmerdList",response);
             let list_orders = response.data.gameslist;
+            console.log('🚀 ~ list_orders:', list_orders);
             $(".time-box .info .number").text(response.period);
             $(".game-list .con-box:eq(0) .page-nav .number").text("1/" + response.page);
 
             // Assuming firstGame is defined somewhere in your code
+            console.log("first game: ", firstGame)
             if (firstGame && firstGame.stage === list_orders[0].period) {
               var modal = document.getElementById("myModal");
               modal.style.display = "block";
@@ -157,7 +160,8 @@ socket.on("data-server", function (msg) {
                 myModalheader.innerHTML = "Winning 🥇";
                 myModal_result.innerHTML = "WIN :" + firstGame.get;
               }
-              myModal_result_Period.innerHTML = "Period : 30 Sec " + firstGame.stage;
+              myModal_result_Period.innerHTML = "Period : 30 sec " + firstGame.stage;
+
 
               let color;
               let type;
@@ -187,12 +191,6 @@ socket.on("data-server", function (msg) {
         });
       },
     });
-    // Accessing the fifth element (index 4)
-    var element_2 = document.getElementById("Winning_0");
-
-    // Update its text content
-    element_2.textContent = "4";
-
     fetch("/api/webapi/GetUserInfo")
       .then((response) => response.json())
       .then((data) => {
@@ -200,12 +198,11 @@ socket.on("data-server", function (msg) {
           unsetCookie();
           return false;
         }
-        $(".num span").text(`₹ ${data.data.money_user}. `);
+        $(".num span").text(`₹ ${data.data.money_user}.00`);
       });
     $(".Loading").fadeOut(0);
   }, 1000);
 });
-
 // $('body').click(function (e) {
 //     e.preventDefault();
 //     socket.emit('data-server', {
@@ -233,13 +230,11 @@ $("body").click(function (e) {
 });
 
 function playAudio1() {
-  //audio1.muted = false;
   audio1.muted = true;
   audio1.play();
 }
 
 function playAudio2() {
-  //audio2.muted = false;
   audio2.muted = true;
   audio2.play();
 }
@@ -252,9 +247,8 @@ fetch("/api/webapi/GetUserInfo")
       unsetCookie();
       return false;
     }
-    $(".num span").text(`₹ ${data.data.money_user}.00 `);
+    $(".num span").text(`₹ ${data.data.money_user}.00`);
   });
-
 $(".reload_money").click(function (e) {
   e.preventDefault();
   $(this).addClass("action block-click");
@@ -268,7 +262,7 @@ $(".reload_money").click(function (e) {
         unsetCookie();
         return false;
       }
-      $(".num span").text(`₹ ${data.data.money_user}.00 `);
+      $(".num span").text(`₹ ${data.data.money_user}.00`);
     });
 });
 $(".van-overlay, .foot .left").click(function (e) {
@@ -521,20 +515,20 @@ $(".popup-qt .van-button").click(function (e) {
 
 $(".con-box button").click(function (e) {
   e.preventDefault();
-  let addTop = $(this).attr("data-join"); // xanh - do - tim (x - d - t)
-  let addText = $(this).text(); // xanh - do - tim
+  let addTop = $(this).attr("data-join"); // Green - do - tim (x - d - t)
+  let addText = $(this).text(); // Green - do - tim
   alertBox(addTop, addText);
 });
 $(".number-box button").click(function (e) {
   e.preventDefault();
-  let addTop = $(this).text().trim(); // xanh - do - tim (x - d - t)
-  let addText = $(this).text(); // xanh - do - tim
+  let addTop = $(this).text().trim(); // Green - do - tim (x - d - t)
+  let addText = $(this).text(); // Green - do - tim
   alertBox(addTop, addText);
 });
 $(".btn-box button").click(function (e) {
   e.preventDefault();
-  let addTop = $(this).attr("data-join"); // xanh - do - tim (x - d - t)
-  let addText = $(this).text(); // xanh - do - tim
+  let addTop = $(this).attr("data-join"); // Green - do - tim (x - d - t)
+  let addText = $(this).text(); // Green - do - tim
   alertBox(addTop, addText);
 });
 
@@ -619,7 +613,6 @@ $(".game-list .tab .li:eq(1)").click(function (e) {
       $(".game-list .con-box:eq(1) .page-nav .number").text(
         "1/" + `${(response.page) ? response.page : '1'}`
       );
-
       showListOrder2(data, 1);
     },
   });
@@ -674,10 +667,10 @@ $(".game-list .tab .li:eq(2)").click(function (e) {
 function alertMessJoin(msg) {
   $("body").append(
     `
-                <div data-v-1dcba851="" class="msg">
-                    <div data-v-1dcba851="" class="msg-content v-enter-active v-enter-to" style=""> ${msg} </div>
-                </div>
-                `
+                  <div data-v-1dcba851="" class="msg">
+                      <div data-v-1dcba851="" class="msg-content v-enter-active v-enter-to" style=""> ${msg} </div>
+                  </div>
+                  `
   );
   setTimeout(() => {
     $(".msg .msg-content").removeClass("v-enter-active v-enter-to");
@@ -737,58 +730,315 @@ function showListOrder(list_orders, x) {
   if (list_orders.length == 0) {
     return $(`.game-list .con-box:eq(${x}) .hb`).html(
       `
-                    <div data-v-a9660e98="" class="van-empty">
-                        <div class="van-empty__image">
-                            <img src="/images/empty-image-default.png" />
-                        </div>
-                        <p class="van-empty__description">No data3</p>
-                    </div>
-                    `
+                      <div data-v-a9660e98="" class="van-empty">
+                          <div class="van-empty__image">
+                              <img src="/images/empty-image-default.png" />
+                          </div>
+                          <p class="van-empty__description">No Data41</p>
+                      </div>
+                      `
     );
   }
   let htmls = "";
   let result = list_orders.map((list_orders) => {
     return (htmls += `
-                    <div data-v-a9660e98="" class="c-tc item van-row">
-                        <div data-v-a9660e98="" class="van-col van-col--8">
-                            <div data-v-a9660e98="" class="c-tc goItem">${list_orders.period
+                      <div data-v-a9660e98="" class="c-tc item van-row">
+                          <div data-v-a9660e98="" class="van-col van-col--8">
+                              <div data-v-a9660e98="" class="c-tc goItem">${list_orders.period
       }</div>
-                        </div>
-                        <div data-v-a9660e98="" class="van-col van-col--5">
-                            <div data-v-a9660e98="" class="c-tc goItem">
-                                <!---->
-                                <span data-v-a9660e98="" class="${list_orders.amount % 2 == 0 ? "red" : "green"
+                          </div>
+                          <div data-v-a9660e98="" class="van-col van-col--5">
+                              <div data-v-a9660e98="" class="c-tc goItem">
+                                  <!---->
+                                  <span data-v-a9660e98="" class="${list_orders.amount % 2 == 0 ? "red" : "green"
       }"> ${list_orders.amount} </span>
-                            </div>
-                        </div>
-                        <div data-v-a9660e98="" class="van-col van-col--5">
-                            <div data-v-a9660e98="" class="c-tc goItem">
-                                <span data-v-a9660e98=""> ${list_orders.amount < 5 ? "Small" : "Big"
+                              </div>
+                          </div>
+                          <div data-v-a9660e98="" class="van-col van-col--5">
+                              <div data-v-a9660e98="" class="c-tc goItem">
+                                  <span data-v-a9660e98=""> ${list_orders.amount < 5 ? "Small" : "Big"
       } </span>
-                                <!---->
-                            </div>
-                        </div>
-                        <div data-v-a9660e98="" class="van-col van-col--6">
-                            <div data-v-a9660e98="" class="goItem c-row c-tc c-row-center">
-                                <div data-v-a9660e98="" class="c-tc c-row box c-row-center">
-                                    <span data-v-a9660e98="" class="li ${list_orders.amount % 2 == 0
+                                  <!---->
+                              </div>
+                          </div>
+                          <div data-v-a9660e98="" class="van-col van-col--6">
+                              <div data-v-a9660e98="" class="goItem c-row c-tc c-row-center">
+                                  <div data-v-a9660e98="" class="c-tc c-row box c-row-center">
+                                      <span data-v-a9660e98="" class="li ${list_orders.amount % 2 == 0
         ? "red"
         : "green"
       }"></span>
-                                    ${list_orders.amount == 0 ||
+                                      ${list_orders.amount == 0 ||
         list_orders.amount == 5
         ? '<span data-v-a9660e98="" class="li violet"></span>'
         : ""
       }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    `);
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      `);
   });
   $(`.game-list .con-box:eq(${x}) .hb`).html(htmls);
 }
 
+const isNumber = (params) => {
+  let pattern = /^[0-9]*\d$/;
+  return pattern.test(params);
+};
+
+function showListOrder2(list_orders, x) {
+  console.log("showListOrder2","x",list_orders,x);
+  if (list_orders.length == 0) {
+    return $(`.game-list .con-box:eq(${x}) #history-order`).html(
+      `
+                      <div data-v-a9660e98="" class="van-empty">
+                          <div class="van-empty__image">
+                              <img src="/images/empty-image-default.png" />
+                          </div>
+                          <p class="van-empty__description">No Data42</p>
+                      </div>
+                      `
+    );
+  }
+  let htmls = "";
+  let i = -1;
+  let result = list_orders.map((list_orders) => {
+    i++;
+    let join = list_orders.bet;
+    let color = "";
+    if (join == "l") {
+      color = "big";
+    } else if (join == "n") {
+      color = "small";
+    } else if (join == "t") {
+      color = "violet";
+    } else if (join == "d") {
+      color = "red";
+    } else if (join == "x") {
+      color = "green";
+    } else if (join == "0") {
+      color = "red-violet";
+    } else if (join == "5") {
+      color = "green-violet";
+    } else if (Number(join) % 2 == 0) {
+      color = "red";
+    } else if (Number(join) % 2 != 0) {
+      color = "green";
+    }
+    if ((!isNumber(join) && join == "l") || join == "n") {
+      checkJoin = `
+                      <div data-v-a9660e98="" class="van-image" style="width: 30px; height: 30px;">
+                          <img src="/images/${join == "n" ? "small" : "big"
+        }.png" class="van-image__img">
+                      </div>
+                      `;
+    } else {
+      checkJoin = `
+                      <span data-v-a9660e98="">${isNumber(join) ? join : ""
+        }</span>
+                      `;
+    }
+    return (htmls += `
+                      <div data-v-a9660e98="" issuenumber="${list_orders.stage
+      }" addtime="${timerJoin(
+        list_orders.time
+      )}" colour="red" number="6" rowid="${i}" class="hb">
+                          <div data-v-a9660e98="" class="item c-row">
+                              <div data-v-a9660e98="" class="result">
+                                  <div data-v-a9660e98="" class="select select-${color}">
+                                      ${checkJoin}    
+                                  </div>
+                              </div>
+                              <div data-v-a9660e98="" class="c-row c-row-between info">
+                                  <div data-v-a9660e98="">
+                                      <div data-v-a9660e98="" class="issueName">
+                                          ${list_orders.stage} 
+                                          ${list_orders.status == 1
+        ? '<span data-v-a9660e98="" class="state green">Success</span>'
+        : list_orders.status == 2
+          ? '<span data-v-a9660e98="" class="state red">Fail</span>'
+          : ""
+      }
+                                      </div>
+                                      <div data-v-a9660e98="" class="tiem">${timerJoin(
+        list_orders.time
+      )}</div>
+                                  </div>
+                                  <div data-v-a9660e98="" class="money">
+                                  ${list_orders.status == 1 && list_orders.bet == 0
+        ? '<span data-v-a9660e98="" class="success"> + ' +
+        list_orders.money * 4.8 +
+        " </span>"
+        : list_orders.status == 1 && list_orders.bet == 5
+          ? '<span data-v-a9660e98="" class="success"> + ' +
+          list_orders.money * 4.8 +
+          " </span>"
+          : list_orders.status == 1 && list_orders.result == 0 && list_orders.bet == 'd'
+            ? '<span data-v-a9660e98="" class="success"> + ' +
+            list_orders.money * 1.9 +
+            " </span>"
+            : list_orders.status == 1 && list_orders.bet == 'd'
+              ? '<span data-v-a9660e98="" class="success"> + ' +
+              list_orders.money * 1.9 +
+              " </span>"
+              : list_orders.status == 1 && list_orders.bet == 't'
+                ? '<span data-v-a9660e98="" class="success"> + ' +
+                list_orders.money * 4.8 +
+                " </span>"
+                : list_orders.status == 1 && list_orders.result == 5 && list_orders.bet == 'x'
+                  ? '<span data-v-a9660e98="" class="success"> + ' +
+                  list_orders.money * 1.9 +
+                  " </span>"
+                  : list_orders.status == 1 && list_orders.bet == 'x'
+                    ? '<span data-v-a9660e98="" class="success"> + ' +
+                    list_orders.money * 1.9 +
+                    " </span>"
+                    : list_orders.status == 1 && list_orders.bet == 'l'
+                      ? '<span data-v-a9660e98="" class="success"> + ' +
+                      list_orders.money * 1.9 +
+                      " </span>"
+                      : list_orders.status == 1 && list_orders.bet == 'n'
+                        ? '<span data-v-a9660e98="" class="success"> + ' +
+                        list_orders.money * 1.9 +
+                        " </span>"
+                        : list_orders.status == 1
+                          ? '<span data-v-a9660e98="" class="success"> + ' +
+                          list_orders.money * 9 +
+                          " </span>"
+                          : list_orders.status == 2
+                            ? '<span data-v-a9660e98="" class="fail"> - ' +
+                            list_orders.money +
+                            "</span>"
+                            : ""
+      }
+                                  </div>
+                              </div>
+                          </div>
+  
+                          <div data-v-a9660e98="" class="details" style="display: none">
+                              <div data-v-a9660e98="" class="tit">Details</div>
+                              <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
+                                  <div data-v-a9660e98="">Order ID</div>
+                                  <div data-v-a9660e98="" data-clipboard-text="${list_orders.id_product
+      }" class="tag-read c-row c-row-between c-row-middle">
+                                      ${list_orders.id_product}
+                                      <img data-v-a9660e98="" width="18px" height="15px" src="/images/copy.png" class="m-l-5">
+                                  </div>
+                                  </div>
+                                  <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
+                                      <div data-v-a9660e98="">Lottery Period</div>
+                                          <div data-v-a9660e98="">${list_orders.stage
+      }</div>
+                                      </div>
+                                      <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
+                                          <div data-v-a9660e98="">Bet Amount</div>
+                                          <div data-v-a9660e98="">${list_orders.money + list_orders.fee
+      }.00</div>
+                                      </div>
+                                      <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
+                                          <div data-v-a9660e98="">Quantity</div>
+                                          <div data-v-a9660e98="">${list_orders.amount
+      }</div>
+                                      </div>
+                                      <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
+                                          <div data-v-a9660e98="">Amount After Tax</div>
+                                          <div data-v-a9660e98="" class="red">${list_orders.money
+      }.00</div>
+                                      </div>
+                                      <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
+                                          <div data-v-a9660e98="">Tax</div>
+                                          <div data-v-a9660e98="">${list_orders.fee
+      }.00</div>
+                                      </div>
+                                      <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
+                                          <div data-v-a9660e98="">Order Number</div>
+                                          <div data-v-a9660e98="">${list_orders.result
+      }</div>
+                                      </div>
+                                      <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
+                                          <div data-v-a9660e98="">Result</div>
+                                      <div data-v-a9660e98="">
+                                          <div data-v-a9660e98="" style="display: inline-block; margin-left: 8px;">${list_orders.result
+      }</div>
+                                          <div data-v-a9660e98="" style="display: inline-block; margin-left: 8px;">${list_orders.result == 0
+        ? "Red Yellow"
+        : list_orders.result == 5
+          ? "Green Yellow"
+          : list_orders.result % 2 == 0
+            ? "Red"
+            : "Green"
+      }</div>
+                                          <div data-v-a9660e98="" style="display: inline-block; margin-left: 8px;">${list_orders.amount < 5 ? "Small" : "Big"
+      }</div>
+                                      </div>
+                                  </div>
+                                  <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle ">
+                                      <div data-v-a9660e98="">Choose</div>
+                                      <div data-v-a9660e98="">
+                                          <div data-v-a9660e98="">${color}</div>
+                                      </div>
+                                  </div>
+                                  <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
+                                      <div data-v-a9660e98="">Status</div>
+                                      <div data-v-a9660e98="" class="${list_orders.status == 1
+        ? "green"
+        : list_orders.status == 2
+          ? "red"
+          : ""
+      }">${list_orders.status == 1
+        ? "Success"
+        : list_orders.status == 2
+          ? "Fail"
+          : ""
+      }</div>
+                                  </div>
+                                  <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
+                                      <div data-v-a9660e98="">Win Or Loss</div>
+                                      <div data-v-a9660e98="" class="${list_orders.status == 1
+        ? "green"
+        : list_orders.status == 2
+          ? "red"
+          : ""
+      }"> ${list_orders.status == 1 ? "+" : list_orders.status == 2 ? "-" : ""
+      } ${list_orders.status == 0
+        ? ""
+        : list_orders.status == 1 && list_orders.bet == 0
+          ? list_orders.money * 4.8
+          : list_orders.status == 1 && list_orders.bet == 5
+            ? list_orders.money * 1.9
+            : list_orders.status == 1 && list_orders.bet == 't'
+              ? list_orders.money * 4.8
+              : list_orders.status == 1 && list_orders.result == 0 && list_orders.bet == 'd'
+                ? list_orders.money * 1.9
+                : list_orders.status == 1 && list_orders.bet == 'd'
+                  ? list_orders.money * 1.9
+                  : list_orders.status == 1 && list_orders.bet == 'x'
+                    ? list_orders.money * 1.9
+                    : list_orders.status == 1 && list_orders.result == 5 && list_orders.bet == 'x'
+                      ? list_orders.money * 1.9
+                      : list_orders.status == 1 && list_orders.bet == 'l'
+                        ? list_orders.money * 1.9
+                        : list_orders.status == 1 && list_orders.bet == 'n'
+                          ? list_orders.money * 1.9
+                          : list_orders.status == 1
+                            ? list_orders.money * 9
+                            : list_orders.money
+      }
+      </div>
+                                  </div>
+                                  <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
+                                      <div data-v-a9660e98="">Order Time</div>
+                                      <div data-v-a9660e98="">${timerJoin(
+        list_orders.time
+      )}</div>
+                                  </div>
+                              </div>
+                      </div>
+                      `);
+  });
+  $(`.game-list .con-box:eq(${x}) .list #history-order`).html(htmls);
+}
 function showListOrder_t(list_orders, x) {
   if (list_orders.length == 0) {
     return $(`.game-list .con-box:eq(${x}) .hb`).html(
@@ -797,7 +1047,7 @@ function showListOrder_t(list_orders, x) {
           <div class="van-empty__image">
             <img src="/images/empty-image-default.png" />
           </div>
-          <p class="van-empty__description">No data4</p>
+          <p class="van-empty__description">No data43</p>
         </div>
       `
     );
@@ -914,262 +1164,6 @@ function showListOrder_t(list_orders, x) {
   $targetDiv.html(htmls);
 }
 
-const isNumber = (params) => {
-  let pattern = /^[0-9]*\d$/;
-  return pattern.test(params);
-};
-
-function showListOrder2(list_orders, x) {
-  if (list_orders.length == 0) {
-    return $(`.game-list .con-box:eq(${x}) #history-order`).html(
-      `
-                    <div data-v-a9660e98="" class="van-empty">
-                        <div class="van-empty__image">
-                            <img src="/images/empty-image-default.png" />
-                        </div>
-                        <p class="van-empty__description">No Data5</p>
-                    </div>
-                    `
-    );
-  }
-  let htmls = "";
-  let i = -1;
-  let result = list_orders.map((list_orders) => {
-    i++;
-    let join = list_orders.bet;
-    let color = "";
-    if (join == "l") {
-      color = "big";
-    } else if (join == "n") {
-      color = "small";
-    } else if (join == "t") {
-      color = "violet";
-    } else if (join == "d") {
-      color = "red";
-    } else if (join == "x") {
-      color = "green";
-    } else if (join == "0") {
-      color = "red-violet";
-    } else if (join == "5") {
-      color = "green-violet";
-    } else if (Number(join) % 2 == 0) {
-      color = "red";
-    } else if (Number(join) % 2 != 0) {
-      color = "green";
-    }
-    if ((!isNumber(join) && join == "l") || join == "n") {
-      checkJoin = `
-                    <div data-v-a9660e98="" class="van-image" style="width: 30px; height: 30px;">
-                        <img src="/images/${join == "n" ? "small" : "big"
-        }.png" class="van-image__img">
-                    </div>
-                    `;
-    } else {
-      checkJoin = `
-                    <span data-v-a9660e98="">${isNumber(join) ? join : ""
-        }</span>
-                    `;
-    }
-    return (htmls += `
-                    <div data-v-a9660e98="" issuenumber="${list_orders.stage
-      }" addtime="${timerJoin(
-        list_orders.time
-      )}" colour="red" number="6" rowid="${i}" class="hb">
-                        <div data-v-a9660e98="" class="item c-row">
-                            <div data-v-a9660e98="" class="result">
-                                <div data-v-a9660e98="" class="select select-${color}">
-                                    ${checkJoin}    
-                                </div>
-                            </div>
-                            <div data-v-a9660e98="" class="c-row c-row-between info">
-                                <div data-v-a9660e98="">
-                                    <div data-v-a9660e98="" class="issueName">
-                                        ${list_orders.stage} 
-                                        ${list_orders.status == 1
-        ? '<span data-v-a9660e98="" class="state green">Success</span>'
-        : list_orders.status == 2
-          ? '<span data-v-a9660e98="" class="state red">Fail</span>'
-          : ""
-      }
-                                    </div>
-                                    <div data-v-a9660e98="" class="tiem">${timerJoin(
-        list_orders.time
-      )}</div>
-                                </div>
-                                <div data-v-a9660e98="" class="money">
-                                        ${list_orders.status == 1 && list_orders.bet == 0
-        ? '<span data-v-a9660e98="" class="success"> + ' +
-        list_orders.money * 4.8 +
-        " </span>"
-        : list_orders.status == 1 && list_orders.bet == 5
-          ? '<span data-v-a9660e98="" class="success"> + ' +
-          list_orders.money * 4.8 +
-          " </span>"
-          : list_orders.status == 1 && list_orders.result == 0 && list_orders.bet == 'd'
-            ? '<span data-v-a9660e98="" class="success"> + ' +
-            list_orders.money * 1.9 +
-            " </span>"
-            : list_orders.status == 1 && list_orders.bet == 'd'
-              ? '<span data-v-a9660e98="" class="success"> + ' +
-              list_orders.money * 1.9 +
-              " </span>"
-              : list_orders.status == 1 && list_orders.bet == 't'
-                ? '<span data-v-a9660e98="" class="success"> + ' +
-                list_orders.money * 4.8 +
-                " </span>"
-                : list_orders.status == 1 && list_orders.result == 5 && list_orders.bet == 'x'
-                  ? '<span data-v-a9660e98="" class="success"> + ' +
-                  list_orders.money * 1.9 +
-                  " </span>"
-                  : list_orders.status == 1 && list_orders.bet == 'x'
-                    ? '<span data-v-a9660e98="" class="success"> + ' +
-                    list_orders.money * 1.9 +
-                    " </span>"
-                    : list_orders.status == 1 && list_orders.bet == 'l'
-                      ? '<span data-v-a9660e98="" class="success"> + ' +
-                      list_orders.money * 1.9 +
-                      " </span>"
-                      : list_orders.status == 1 && list_orders.bet == 'n'
-                        ? '<span data-v-a9660e98="" class="success"> + ' +
-                        list_orders.money * 1.9 +
-                        " </span>"
-                        : list_orders.status == 1
-                          ? '<span data-v-a9660e98="" class="success"> + ' +
-                          list_orders.money * 9 +
-                          " </span>"
-                          : list_orders.status == 2
-                            ? '<span data-v-a9660e98="" class="fail"> - ' +
-                            list_orders.money +
-                            "</span>"
-                            : ""
-      }
-                                </div>
-                            </div>
-                        </div>
-
-                        <div data-v-a9660e98="" class="details" style="display: none">
-                            <div data-v-a9660e98="" class="tit">Details</div>
-                            <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
-                                <div data-v-a9660e98="">Order ID</div>
-                                <div data-v-a9660e98="" data-clipboard-text="${list_orders.id_product
-      }" class="tag-read c-row c-row-between c-row-middle">
-                                    ${list_orders.id_product}
-                                    <img data-v-a9660e98="" width="18px" height="15px" src="/images/copy.png" class="m-l-5">
-                                </div>
-                                </div>
-                                <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
-                                    <div data-v-a9660e98="">Periods</div>
-                                        <div data-v-a9660e98="">${list_orders.stage
-      }</div>
-                                    </div>
-                                    <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
-                                        <div data-v-a9660e98="">Amount Spent</div>
-                                        <div data-v-a9660e98="">${list_orders.money + list_orders.fee
-      }.00</div>
-                                    </div>
-                                    <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
-                                        <div data-v-a9660e98="">Quantity</div>
-                                        <div data-v-a9660e98="">${list_orders.amount
-      }</div>
-                                    </div>
-                                    <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
-                                        <div data-v-a9660e98="">Net Amount</div>
-                                        <div data-v-a9660e98="" class="red">${list_orders.money
-      }.00</div>
-                                    </div>
-                                    <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
-                                        <div data-v-a9660e98="">Tax</div>
-                                        <div data-v-a9660e98="">${list_orders.fee
-      }.00</div>
-                                    </div>
-                                    <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
-                                        <div data-v-a9660e98="">Opening Price</div>
-                                        <div data-v-a9660e98="">${list_orders.result
-      }</div>
-                                    </div>
-                                    <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
-                                        <div data-v-a9660e98="">Result</div>
-                                    <div data-v-a9660e98="">
-                                        <div data-v-a9660e98="" style="display: inline-block; margin-left: 8px;">${list_orders.result
-      }</div>
-                                        <div data-v-a9660e98="" style="display: inline-block; margin-left: 8px;">${list_orders.result == 0
-        ? "Yellow"
-        : list_orders.result == 5
-          ? "Indigo"
-          : list_orders.result % 2 == 0
-            ? "Red"
-            : "Green"
-      }</div>
-                                        <div data-v-a9660e98="" style="display: inline-block; margin-left: 8px;">${list_orders.amount < 5 ? "Small" : "Big"
-      }</div>
-                                    </div>
-                                </div>
-                                <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle ">
-                                    <div data-v-a9660e98="">Select</div>
-                                    <div data-v-a9660e98="">
-                                        <div data-v-a9660e98="">${color}</div>
-                                    </div>
-                                </div>
-                                <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
-                                    <div data-v-a9660e98="">Status</div>
-                                    <div data-v-a9660e98="" class="${list_orders.status == 1
-        ? "green"
-        : list_orders.status == 2
-          ? "red"
-          : ""
-      }">${list_orders.status == 1
-        ? "Success"
-        : list_orders.status == 2
-          ? "Failure"
-          : ""
-      }</div>
-                                </div>
-                                <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
-                                    <div data-v-a9660e98="">Win Or Loss</div>
-                                    <div data-v-a9660e98="" class="${list_orders.status == 1
-        ? "green"
-        : list_orders.status == 2
-          ? "red"
-          : ""
-      }"> ${list_orders.status == 1 ? "+" : list_orders.status == 2 ? "-" : ""
-      } ${list_orders.status == 0
-        ? ""
-        : list_orders.status == 1 && list_orders.bet == 0
-          ? list_orders.money * 4.8
-          : list_orders.status == 1 && list_orders.bet == 5
-            ? list_orders.money * 1.9
-            : list_orders.status == 1 && list_orders.bet == 't'
-              ? list_orders.money * 4.8
-              : list_orders.status == 1 && list_orders.result == 0 && list_orders.bet == 'd'
-                ? list_orders.money * 1.9
-                : list_orders.status == 1 && list_orders.bet == 'd'
-                  ? list_orders.money * 1.9
-                  : list_orders.status == 1 && list_orders.bet == 'x'
-                    ? list_orders.money * 1.8
-                    : list_orders.status == 1 && list_orders.result == 5 && list_orders.bet == 'x'
-                      ? list_orders.money * 1.9
-                      : list_orders.status == 1 && list_orders.bet == 'l'
-                        ? list_orders.money * 1.9
-                        : list_orders.status == 1 && list_orders.bet == 'n'
-                          ? list_orders.money * 1.9
-                          : list_orders.status == 1
-                            ? list_orders.money * 9
-                            : list_orders.money
-      }
-    </div>
-                                </div>
-                                <div data-v-a9660e98="" class="li c-row c-row-between c-row-middle">
-                                    <div data-v-a9660e98="">Time</div>
-                                    <div data-v-a9660e98="">${timerJoin(
-        list_orders.time
-      )}</div>
-                                </div>
-                            </div>
-                    </div>
-                    `);
-  });
-  $(`.game-list .con-box:eq(${x}) .list #history-order`).html(htmls);
-}
 $.ajax({
   type: "POST",
   url: "/api/webapi/GetNoaverageEmerdList",
@@ -1515,15 +1509,13 @@ window.onload = function () {
       var seconds2 = Math.floor(((distance % (1000 * 30)) / 1000) % 10);
       $(".number .item:eq(3)").text(seconds1);
       $(".number .item:eq(4)").text(seconds2);
-    }, 100);
+    }, 0);
     setInterval(() => {
       var now = new Date().getTime();
       var distance = countDownDate - now;
-      // var minutes = Math.floor((distance % (1000 * 30 * 60)) / (1000 * 10));
-      // var minute = Math.ceil(minutes % 1);
       var seconds1 = Math.floor((distance % (1000 * 30)) / 10000);
       var seconds2 = Math.floor(((distance % (1000 * 30)) / 1000) % 10);
-      if (seconds1 == 0 && seconds2 <= 5) {
+      if (seconds1 == 0 && seconds2 <= 6) {
         if (clicked) {
           playAudio1();
         }
@@ -1537,8 +1529,6 @@ window.onload = function () {
     setInterval(function () {
       var now = new Date().getTime();
       var distance = countDownDate - now;
-      // var minutes = Math.floor((distance % (1000 * 30 * 30)) / (1000 * 30));
-      // var minute = Math.ceil(minutes % 1);
       var seconds1 = Math.floor((distance % (1000 * 30)) / 10000);
       var seconds2 = Math.floor(((distance % (1000 * 30)) / 1000) % 10);
       if (seconds1 == 0 && seconds2 <= 5) {
