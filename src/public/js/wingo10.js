@@ -872,7 +872,7 @@ function showListOrder2(list_orders, x) {
         " </span>"
         : list_orders.status == 1 && list_orders.bet == 5
           ? '<span data-v-a9660e98="" class="success"> + ' +
-          list_orders.money * 4.5 +
+          list_orders.money * 4.8 +
           " </span>"
           : list_orders.status == 1 && list_orders.result == 0 && list_orders.bet == 'd'
             ? '<span data-v-a9660e98="" class="success"> + ' +
