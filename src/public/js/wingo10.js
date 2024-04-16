@@ -1509,13 +1509,10 @@ window.onload = function () {
     setInterval(function () {
       var now = new Date().getTime();
       var distance = countDownDate - now;
-      // var minutes = Math.floor((distance % (1000 * 60 * 30)) / (1000 * 30));
-      // var minute = Math.ceil(minutes % 1);
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var minute = Math.ceil(minutes / 20 - 2);
       var seconds1 = Math.floor((distance % (1000 * 30)) / 10000);
       var seconds2 = Math.floor(((distance % (1000 * 30)) / 1000) % 10);
-      // $(".number .item:eq(0)").text(seconds1);
-      $(".number .item:eq(1)").text(minute);
-
       $(".number .item:eq(3)").text(seconds1);
       $(".number .item:eq(4)").text(seconds2);
     }, 100);
