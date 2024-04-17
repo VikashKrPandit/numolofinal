@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html translate="no" data-dpr="1" style="font-size: 44.64px">
+<html translate="no" data-dpr="4" style="font-size: 44.64px">
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -9,7 +9,7 @@
       name="viewport"
     />
     <title>Numolo</title>
-
+    <script src="/js/block.js"></script>
     <link rel="stylesheet" href="/css/bet/wingo/main.css" />
     <link rel="stylesheet" href="/css/bet/wingo/chunk-4e7d3985.25c9d2c0.css" />
     <link rel="stylesheet" href="/css/bet/wingo/chunk-4e7d3985.25c9d2c1.css" />
@@ -35,6 +35,7 @@
         pointer-events: none;
       }
     </style>
+
     <style>
       /* The Modal (background) */
       .modal {
@@ -124,7 +125,7 @@
         top: 65%;
         left: 50%;
         transform: translate(-50%, -50%);
-        color: #ff850f;
+        color: #fff;
         font-size: 25px;
         font-weight: bold;
         text-align: center;
@@ -262,7 +263,7 @@
               "
             >
               <div data-v-a9660e98="" class="info">
-                <div data-v-a9660e98="" class="txt">30 sec</div>
+                <div data-v-a9660e98="" class="txt">5 min</div>
                 <div data-v-a9660e98="" class="number">Loading............</div>
               </div>
               <div data-v-a9660e98="" class="out">
@@ -316,7 +317,7 @@
                     class="van-tab van-tab--active"
                   >
                     <span class="van-tab__text van-tab__text--ellipsis"
-                      >Bệt rồng mới nhất</span
+                      >Latest dragon pedestal</span
                     >
                   </div>
                   <div role="tab" class="van-tab">
@@ -411,7 +412,7 @@
                 >
                   <div data-v-a9660e98="" class="van-button__content">
                     <span data-v-a9660e98="" class="van-button__text">
-                      <span data-v-a9660e98="">I know</span>
+                      <span data-v-a9660e98="">I Know</span>
                     </span>
                   </div>
                 </button>
@@ -419,12 +420,13 @@
             </div>
           </div>
         </div>
-        <%- include('element/alert.ejs') -%>
+        <%- include('element/alert3.ejs') -%>
       </div>
       <div
         data-v-7692a079=""
         data-v-a9660e98=""
         class="Loading c-row c-row-middle-center"
+        style="display: none"
       >
         <div data-v-7692a079="" class="van-loading van-loading--circular">
           <span
@@ -473,7 +475,6 @@
         </div>
       </div>
     </div>
-    <!-- The Modal -->
     <div id="myModal" class="modal" style="display: none">
       <!-- Modal content -->
       <div class="modal-content">
@@ -498,7 +499,7 @@
         </div>
         <div class="text-over-image-3">
           <!-- Your text here -->
-          <div id="myModal_result_Period">Period: 30 Sec 1234567890</div>
+          <div id="myModal_result_Period">Period: 10 Minute 1234567890</div>
           <br />
         </div>
         <div class="close-btn">
@@ -533,6 +534,6 @@
       integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H"
       crossorigin="anonymous"
     ></script>
-    <script src="/js/wingo10.js"></script>
+    <script src="/js/wingo5.js"></script>
   </body>
 </html>
