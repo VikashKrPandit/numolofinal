@@ -419,6 +419,8 @@ const listOrderOld = async (req, res) => {
     const [wingoAll] = await connection.query(`SELECT * FROM wingo WHERE status != 0 AND game = '${game}' `);
     const [period] = await connection.query(`SELECT period FROM wingo WHERE status !=0 AND game = '${game}' ORDER BY id DESC LIMIT 1 `)
     //const [period] = await connection.query(`SELECT period FROM wingo WHERE status = 1 AND game = '${game}' ORDER BY id DESC LIMIT 1 `);
+    let peri =period[0].period;
+    let periRnd = Math.floor(Math.random() *7);
     if (!wingo[0]) {
         return res.status(200).json({
             code: 0,
@@ -442,7 +444,7 @@ const listOrderOld = async (req, res) => {
         data: {
             gameslist: wingo,
         },
-        period: period[0].period,
+        period: peri+""+periRnd,
         page: page,
         status: true
     });
@@ -521,6 +523,8 @@ const GetMyEmerdList = async (req, res) => {
 }
 
 const addWinGo = async (game) => {
+    console.log("addWingo",game);
+    let period=0;
     try {
         let join = '';
         if (game == 1) join = 'wingo';
@@ -530,7 +534,8 @@ const addWinGo = async (game) => {
 
         const [winGoNow] = await connection.query(`SELECT period FROM wingo WHERE status = 0 AND game = "${join}" ORDER BY id DESC LIMIT 1 `);
         const [setting] = await connection.query('SELECT * FROM `admin` ');
-        let period = winGoNow[0].period; // cầu hiện tại
+        console.log("consoleperiod",winGoNow);
+        period = winGoNow[0].period; // cầu hiện tại
         let amount = Math.floor(Math.random() * 10);
         const [minPlayers] = await connection.query(`SELECT * FROM minutes_1 WHERE status = 0 AND game = "${join}"`);
         if (minPlayers.length >= 2) {
@@ -658,6 +663,7 @@ const addWinGo = async (game) => {
                 newArr = newArr.slice(0, -1);
             }
             result = arr[0];
+            console.log("addWingofunc",result);
             await connection.execute(`UPDATE wingo SET amount = ?,status = ? WHERE period = ? AND game = "${join}"`, [result, 1, period]);
         }
         const sql = `INSERT INTO wingo SET 
@@ -828,10 +834,18 @@ const handlingWinGo1P = async (typeid) => {
             }
         }
         const [users] = await connection.execute('SELECT `money` FROM `users` WHERE `phone` = ?', [phone]);
-        let totals = parseFloat(users[0].money) + parseFloat(nhan_duoc);
+        console.log("userMoney",users[0].money);
+        console.log("nHan_duoc",nhan_duoc);
+        
+
+        //let totals = parseFloat(users[0].money) + parseFloat(nhan_duoc);
+        let totals = users[0].money + nhan_duoc;
+        let tolals_ = totals-1;
+        console.log("totals",totals);
         await connection.execute('UPDATE `minutes_1` SET `get` = ?, `status` = 1 WHERE `id` = ? ', [parseFloat(nhan_duoc), id]);
         const sql = 'UPDATE `users` SET `money` = ? WHERE `phone` = ? ';
-        await connection.execute(sql, [totals, phone]);
+        //await connection.execute(sql, [totals, phone]);
+        await connection.execute(sql, [tolals_, phone]);
     }
 }
 

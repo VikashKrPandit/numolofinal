@@ -191,6 +191,11 @@ socket.on("data-server", function (msg) {
         });
       },
     });
+        // Accessing the fifth element (index 4)
+        var element_2 = document.getElementById("Winning_0");
+
+        // Update its text content
+        element_2.textContent = "4";
     fetch("/api/webapi/GetUserInfo")
       .then((response) => response.json())
       .then((data) => {
@@ -781,7 +786,130 @@ function showListOrder(list_orders, x) {
   });
   $(`.game-list .con-box:eq(${x}) .hb`).html(htmls);
 }
+function showListOrder_t(list_orders, x) {
+  if (list_orders.length == 0) {
+    return $(`.game-list .con-box:eq(${x}) .hb`).html(
+      `
+        <div data-v-a9660e98="" class="van-empty">
+          <div class="van-empty__image">
+            <img src="/images/empty-image-default.png" />
+          </div>
+          <p class="van-empty__description">No data4</p>
+        </div>
+      `
+    );
+  }
 
+  let htmls = "";
+
+  let amounts = list_orders.map((order) => order.amount);
+  let labels = list_orders.map((order) => order.period );
+
+
+  htmls = `
+    <style>
+      canvas {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        transform: rotate(360deg);
+        transform-origin: center;
+        
+      }
+    </style>
+  
+   <canvas id="graphCanvas" width="380" height="400"></canvas>
+   
+    <script>
+    labels1 = ${JSON.stringify(labels)};
+    amounts1 = [${amounts.join(', ')}];
+    labels1.reverse();
+    amounts1.reverse();
+    
+    data = {
+      labels: labels1,
+      values: amounts1
+    };
+
+       canvas = document.getElementById('graphCanvas');
+   ctx = canvas.getContext('2d');
+
+  function createGradient(value, ctx, x, y, prevX, prevY) {
+    gradient = ctx.createLinearGradient(prevX, prevY, x, y);
+    if (value === 0) {
+      gradient.addColorStop(0, 'rgba(255,197,17,1)');
+      gradient.addColorStop(0.35, 'rgba(255,197,17,1)');
+      gradient.addColorStop(1, 'rgba(1,255,0,1)');
+    } else if (value === 5) {
+      gradient.addColorStop(0, 'rgba(255,197,17,1)');
+      gradient.addColorStop(0.35, 'rgba(255,197,17,1)');
+      gradient.addColorStop(1, 'rgba(255,0,14,1)');
+    }
+    return gradient;
+  }
+
+  function plotGraph(data) {
+     padding = 50;
+     spaceBetween = (canvas.width - padding * 2) / (data.values.length - 1);
+    
+    ctx.font = '14px Arial';
+    ctx.lineWidth = 2;
+
+    // Draw the Y axis labels
+    for (let i = 0; i <= 9; i++) {
+      ctx.fillText(9 - i, padding - 30, padding + i * (canvas.height - padding * 2) / 9);
+    }
+
+    data.values.forEach((value, index) => {
+       x = padding + index * spaceBetween;
+       y = padding + (9 - value) * (canvas.height - padding * 2) / 9;
+
+      if (index > 0) {
+         prevX = padding + (index - 1) * spaceBetween;
+         prevY = padding + (9 - data.values[index - 1]) * (canvas.height - padding * 2) / 9;
+        
+        ctx.beginPath();
+        ctx.moveTo(prevX, prevY);
+        ctx.lineTo(x, y);
+        
+        if (value === 0 || value === 5) {
+          ctx.strokeStyle = createGradient(value, ctx, x, y, prevX, prevY);
+        } else {
+          ctx.strokeStyle = getColorForValue(value);
+        }
+        ctx.stroke();
+      }
+
+      ctx.beginPath();
+      ctx.arc(x, y, 5, 0, Math.PI * 2);
+      ctx.fillStyle = getColorForValue(value);
+      ctx.fill();
+
+      ctx.fillText(data.labels[index], x - ctx.measureText(data.labels[index]).width / 2, canvas.height - padding + 20);
+    });
+  }
+
+  function getColorForValue(value) {
+    switch (value) {
+      case 1:
+      case 3:
+      case 7:
+      case 9: return 'green';
+      case 2:
+      case 4:
+      case 6:
+      case 8: return 'red';
+     
+      default: return '#000'; // default color
+    }
+  }
+
+  plotGraph(data);
+    </script>
+  `;
+
+  const $targetDiv = $(`.game-list .con-box:eq(${x}) .hb`);
+  $targetDiv.empty();
+  $targetDiv.html(htmls);
+}
 const isNumber = (params) => {
   let pattern = /^[0-9]*\d$/;
   return pattern.test(params);
@@ -868,39 +996,39 @@ function showListOrder2(list_orders, x) {
                                   <div data-v-a9660e98="" class="money">
                                   ${list_orders.status == 1 && list_orders.bet == 0
         ? '<span data-v-a9660e98="" class="success"> + ' +
-        list_orders.money * 4.8 +
+        list_orders.money * 4.5 +
         " </span>"
         : list_orders.status == 1 && list_orders.bet == 5
           ? '<span data-v-a9660e98="" class="success"> + ' +
-          list_orders.money * 4.8 +
+          list_orders.money * 4.5 +
           " </span>"
           : list_orders.status == 1 && list_orders.result == 0 && list_orders.bet == 'd'
             ? '<span data-v-a9660e98="" class="success"> + ' +
-            list_orders.money * 1.9 +
+            list_orders.money * 1.5 +
             " </span>"
             : list_orders.status == 1 && list_orders.bet == 'd'
               ? '<span data-v-a9660e98="" class="success"> + ' +
-              list_orders.money * 1.9 +
+              list_orders.money * 2 +
               " </span>"
               : list_orders.status == 1 && list_orders.bet == 't'
                 ? '<span data-v-a9660e98="" class="success"> + ' +
-                list_orders.money * 4.8 +
+                list_orders.money * 4.5 +
                 " </span>"
                 : list_orders.status == 1 && list_orders.result == 5 && list_orders.bet == 'x'
                   ? '<span data-v-a9660e98="" class="success"> + ' +
-                  list_orders.money * 1.9 +
+                  list_orders.money * 1.5 +
                   " </span>"
                   : list_orders.status == 1 && list_orders.bet == 'x'
                     ? '<span data-v-a9660e98="" class="success"> + ' +
-                    list_orders.money * 1.9 +
+                    list_orders.money * 2 +
                     " </span>"
                     : list_orders.status == 1 && list_orders.bet == 'l'
                       ? '<span data-v-a9660e98="" class="success"> + ' +
-                      list_orders.money * 1.9 +
+                      list_orders.money * 2 +
                       " </span>"
                       : list_orders.status == 1 && list_orders.bet == 'n'
                         ? '<span data-v-a9660e98="" class="success"> + ' +
-                        list_orders.money * 1.9 +
+                        list_orders.money * 2 +
                         " </span>"
                         : list_orders.status == 1
                           ? '<span data-v-a9660e98="" class="success"> + ' +
@@ -1004,23 +1132,23 @@ function showListOrder2(list_orders, x) {
       } ${list_orders.status == 0
         ? ""
         : list_orders.status == 1 && list_orders.bet == 0
-          ? list_orders.money * 4.8
+          ? list_orders.money * 4.5
           : list_orders.status == 1 && list_orders.bet == 5
-            ? list_orders.money * 1.9
+            ? list_orders.money * 1.5
             : list_orders.status == 1 && list_orders.bet == 't'
-              ? list_orders.money * 4.8
+              ? list_orders.money * 4.5
               : list_orders.status == 1 && list_orders.result == 0 && list_orders.bet == 'd'
-                ? list_orders.money * 1.9
+                ? list_orders.money * 1.5
                 : list_orders.status == 1 && list_orders.bet == 'd'
-                  ? list_orders.money * 1.9
+                  ? list_orders.money * 2
                   : list_orders.status == 1 && list_orders.bet == 'x'
-                    ? list_orders.money * 1.9
+                    ? list_orders.money * 1.5
                     : list_orders.status == 1 && list_orders.result == 5 && list_orders.bet == 'x'
-                      ? list_orders.money * 1.9
+                      ? list_orders.money * 1.5
                       : list_orders.status == 1 && list_orders.bet == 'l'
-                        ? list_orders.money * 1.9
+                        ? list_orders.money * 2
                         : list_orders.status == 1 && list_orders.bet == 'n'
-                          ? list_orders.money * 1.9
+                          ? list_orders.money * 2
                           : list_orders.status == 1
                             ? list_orders.money * 9
                             : list_orders.money
@@ -1163,7 +1291,8 @@ function showListOrder_t(list_orders, x) {
   $targetDiv.empty();
   $targetDiv.html(htmls);
 }
-
+// slot number
+var periodIn=0;
 $.ajax({
   type: "POST",
   url: "/api/webapi/GetNoaverageEmerdList",
@@ -1175,8 +1304,9 @@ $.ajax({
   },
   dataType: "json",
   success: function (response) {
+     periodIn = response.period+1;
     let list_orders = response.data.gameslist;
-    $(".time-box .info .number").text(response.period);
+    $(".time-box .info .number").text(periodIn);
     $(".game-list .con-box:eq(0) .page-nav .number").text("1/" + response.page);
     showListOrder(list_orders, 0);
   },
